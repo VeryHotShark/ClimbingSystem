@@ -6,14 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="d387604a-7e7f-4a30-8731-3045c5248561" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ClimbingSystem.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ClimbingSystem.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Characters/BP_ClimbingSystemCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/BP_ClimbingSystemCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Blueprints/Blueprint_CeilingLight.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Blueprints/Blueprint_CeilingLight.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/6/NC/UUYHDUFQAXTRRN4RVOPIUF.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/DE/SWSI13675DVYIZ0N4NF7Y3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/DE/SWSI13675DVYIZ0N4NF7Y3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEditor.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEditor.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Characters/BP_ClimbingSystemCharacter.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SK_Mannequin.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/Mannequins/Meshes/SK_Mannequin.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/GameModes/BP_GameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/GameModes/BP_GameMode.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Audio/Collapse01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Audio/Collapse01.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/7/7E/T43HYK911UIPV54KZE5E1H.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/7/7E/T43HYK911UIPV54KZE5E1H.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Developer/RiderLink/Intermediate/FileSystemMappings.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Developer/RiderLink/Intermediate/FileSystemMappings.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/Private/Components/CustomMovementComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/Private/Components/CustomMovementComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/Public/Components/CustomMovementComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/Public/Components/CustomMovementComponent.h" afterDir="false" />
     </list>
@@ -29,7 +29,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="Toolset" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2S1uX8Xha5u4a6kSbcOgj2iEpAp" />
   <component name="ProjectViewState">
@@ -38,6 +38,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
@@ -100,7 +101,9 @@
       <workItem from="1688814222773" duration="173000" />
       <workItem from="1688814498219" duration="2158000" />
       <workItem from="1688816700227" duration="4469000" />
-      <workItem from="1688836871390" duration="6108000" />
+      <workItem from="1688836871390" duration="7357000" />
+      <workItem from="1688899428451" duration="5307000" />
+      <workItem from="1688907858431" duration="4176000" />
     </task>
     <servers />
   </component>

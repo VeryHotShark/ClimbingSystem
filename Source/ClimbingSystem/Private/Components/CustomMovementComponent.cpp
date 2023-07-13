@@ -3,6 +3,8 @@
 
 #include "Components/CustomMovementComponent.h"
 
+#include "MotionWarpingComponent.h"
+#include "ClimbingSystem/ClimbingSystemCharacter.h"
 #include "ClimbingSystem/DebugHelper.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/Character.h"
@@ -16,6 +18,8 @@ void UCustomMovementComponent::BeginPlay()
 	OwnerAnimInstance = CharacterOwner->GetMesh()->GetAnimInstance();
 	OwnerAnimInstance->OnMontageEnded.AddDynamic(this, &UCustomMovementComponent::OnMontageEnded);
 	OwnerAnimInstance->OnMontageBlendingOut.AddDynamic(this, &UCustomMovementComponent::OnMontageEnded);
+
+	OwnerPlayerCharacter = Cast<AClimbingSystemCharacter>(CharacterOwner);
 }
 
 void UCustomMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
@@ -121,7 +125,7 @@ bool UCustomMovementComponent::TraceClimbableSurfaces()
 	const FVector Start = UpdatedComponent->GetComponentLocation() + StartOffset;
 	const FVector End = Start + UpdatedComponent->GetForwardVector();
 	
-	ClimbableSurfacesTracedResults = DoCapsuleTraceMultiByObject(Start,End,true);
+	ClimbableSurfacesTracedResults = DoCapsuleTraceMultiByObject(Start,End);
 	return !ClimbableSurfacesTracedResults.IsEmpty();
 }
 
@@ -133,7 +137,7 @@ FHitResult UCustomMovementComponent::TraceFromEyeHeight(float TraceDistance, flo
 	const FVector Start = ComponentLocation + EyeHeightOffset;
 	const FVector End = Start + UpdatedComponent->GetForwardVector() * TraceDistance;
 
-	return DoLineTraceSingleByObject(Start,End, true);
+	return DoLineTraceSingleByObject(Start,End);
 }
 
 void UCustomMovementComponent::PlayClimbMontage(UAnimMontage* MontageToPlay)
@@ -151,10 +155,18 @@ void UCustomMovementComponent::OnMontageEnded(UAnimMontage* Montage, bool bInter
 		StartClimbing();
 		StopMovementImmediately();
 	}
-	else if(Montage == ClimbToTopMontage)
+	else if(Montage == ClimbToTopMontage || Montage == VaultMontage)
 	{
 		SetMovementMode(MOVE_Walking);
 	}
+}
+
+void UCustomMovementComponent::SetMotionWarpTarget(const FName& InWarpTargetName, const FVector& InTargetLocation)
+{
+	if(!OwnerPlayerCharacter)
+		return;
+
+	OwnerPlayerCharacter->GetMotionWarpingComponent()->AddOrUpdateWarpTargetFromLocation(InWarpTargetName, InTargetLocation);
 }
 
 void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
@@ -171,10 +183,11 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 		}
 		else
 		{
-			Debug::Print(TEXT("CANT CLIMB"), FColor::Cyan);
+			TryStartVaulting();
 		}
 	}
-	else
+	
+	if(!bEnableClimb)
 	{
 		StopClimbing();
 	}
@@ -206,17 +219,66 @@ bool UCustomMovementComponent::CanClimbDownLedge()
 	const FVector WalkableSurfaceTraceStart = ComponentLocation + ComponentForward * ClimbDownWalkableSurfaceTraceOffset;
 	const FVector WalkableSurfaceTraceEnd = WalkableSurfaceTraceStart + DownVector * 100.0f;
 
-	FHitResult WalkableSurfaceHit = DoLineTraceSingleByObject(WalkableSurfaceTraceStart,WalkableSurfaceTraceEnd, true);
+	FHitResult WalkableSurfaceHit = DoLineTraceSingleByObject(WalkableSurfaceTraceStart,WalkableSurfaceTraceEnd);
 
 	const FVector LedgeTraceStart  = WalkableSurfaceHit.TraceStart +  ComponentForward * ClimbDownLedgeTraceOffset;
 	const FVector LedgeTraceEnd  = LedgeTraceStart + DownVector * 200.0f;
 	
-	FHitResult LedgeTraceHit = DoLineTraceSingleByObject(LedgeTraceStart,LedgeTraceEnd, true);
+	FHitResult LedgeTraceHit = DoLineTraceSingleByObject(LedgeTraceStart,LedgeTraceEnd);
 	
 	if(WalkableSurfaceHit.bBlockingHit && !LedgeTraceHit.bBlockingHit)
 	{
 		return true;
 	}
+
+	return false;
+}
+
+void UCustomMovementComponent::TryStartVaulting()
+{
+	FVector VaultStartPosition;
+	FVector VaultEndPosition;
+	
+	if(CanStartVaulting(VaultStartPosition, VaultEndPosition))
+	{
+		SetMotionWarpTarget(FName("VaultStartPosition"), VaultStartPosition);
+		SetMotionWarpTarget(FName("VaultEndPosition"), VaultEndPosition);
+		StartClimbing();
+		PlayClimbMontage(VaultMontage);
+	}
+}
+
+bool UCustomMovementComponent::CanStartVaulting(FVector& OutVaultStartPosition, FVector& OutVaultEndPosition)
+{
+	if(IsFalling())
+		return false;
+
+	OutVaultStartPosition = FVector::ZeroVector;
+	OutVaultEndPosition = FVector::ZeroVector;
+
+	const FVector ComponentLocation = UpdatedComponent->GetComponentLocation();
+	const FVector ComponentForward = UpdatedComponent->GetForwardVector();
+	const FVector UpVector = UpdatedComponent->GetUpVector();
+	const FVector DownVector = -UpVector;
+
+	for (int32 i = 0; i < 5; i++)
+	{
+		const FVector Start = ComponentLocation + UpVector * 100.0f + ComponentForward * 100.0f * (i + 1);
+		const FVector End = Start + DownVector * 100.0f * (i + 1);
+
+		FHitResult VaultTraceHit = DoLineTraceSingleByObject(Start, End, true, true);
+
+		if(VaultTraceHit.bBlockingHit)
+		{
+			if(i == 0)
+				OutVaultStartPosition = VaultTraceHit.ImpactPoint;
+			else if(i==4)
+				OutVaultEndPosition = VaultTraceHit.ImpactPoint;
+		}
+	}
+
+	if(OutVaultStartPosition != FVector::ZeroVector && OutVaultEndPosition != FVector::ZeroVector)
+		return true;
 
 	return false;
 }
@@ -229,7 +291,7 @@ bool UCustomMovementComponent::CheckHasReachedFloor()
 	const FVector Start = UpdatedComponent->GetComponentLocation() + StartOffset;
 	const FVector End = Start+DownVector;
 
-	TArray<FHitResult> PossibleFloorHits = DoCapsuleTraceMultiByObject(Start,End, true);
+	TArray<FHitResult> PossibleFloorHits = DoCapsuleTraceMultiByObject(Start,End);
 
 	if(PossibleFloorHits.IsEmpty())
 		return false;
@@ -267,7 +329,7 @@ bool UCustomMovementComponent::CheckHasReachedLedge()
 		const FVector DownVector = -UpdatedComponent->GetUpVector();
 		const FVector WalkableSurfaceTraceEnd = WalkableSurfaceTraceStart + DownVector * 100.0f;
 
-		FHitResult WalkableSurfaceHitResult = DoLineTraceSingleByObject(WalkableSurfaceTraceStart, WalkableSurfaceTraceEnd, true);
+		FHitResult WalkableSurfaceHitResult = DoLineTraceSingleByObject(WalkableSurfaceTraceStart, WalkableSurfaceTraceEnd);
 		
 		if(WalkableSurfaceHitResult.bBlockingHit && GetUnrotatedClimbVelocity().Z > 10.0f)
 		{

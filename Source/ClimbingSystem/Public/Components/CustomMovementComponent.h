@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "CustomMovementComponent.generated.h"
 
+class AClimbingSystemCharacter;
 UENUM(BlueprintType)
 namespace ECustomMovementMode
 {
@@ -55,8 +56,16 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Movement: Climbing", meta=(AllowPrivateAccess = "true"))
 	UAnimMontage* ClimbDownLedgeMontage;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Movement: Climbing", meta=(AllowPrivateAccess = "true"))
+	UAnimMontage* VaultMontage;
 
+	UPROPERTY()
 	UAnimInstance* OwnerAnimInstance;
+
+	UPROPERTY()
+	AClimbingSystemCharacter* OwnerPlayerCharacter;
+	
 	TArray<FHitResult> ClimbableSurfacesTracedResults;
 
 	FVector CurrentClimbableSurfaceLocation;
@@ -69,10 +78,12 @@ private:
 	bool TraceClimbableSurfaces();
 	bool CanStartClimbing();
 	bool CanClimbDownLedge();
+	bool CanStartVaulting(FVector& OutVaultStartPosition, FVector& OutVaultEndPosition);
 	bool CheckHasReachedFloor();
 	bool CheckHasReachedLedge();
 	bool CheckShouldStopClimbing();
-	
+
+	void TryStartVaulting();
 	void StartClimbing();
 	void StopClimbing(); 
 	void PhysClimb(float deltaTime, int32 Iterations);
@@ -84,6 +95,8 @@ private:
 	
 	UFUNCTION()
 	void OnMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
+	void SetMotionWarpTarget(const FName& InWarpTargetName, const FVector& InTargetLocation);
 
 protected:
 	virtual void BeginPlay() override;

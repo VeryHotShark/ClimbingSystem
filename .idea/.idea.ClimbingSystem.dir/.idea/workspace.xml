@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d387604a-7e7f-4a30-8731-3045c5248561" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Content/Characters/ABP_ClimbSystemCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/ABP_ClimbSystemCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ClimbingSystem.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ClimbingSystem.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClimbingSystem.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/ClimbingSystem.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Characters/BP_ClimbSystemCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/BP_ClimbSystemCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Blueprints/Blueprint_CeilingLight.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Blueprints/Blueprint_CeilingLight.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/HDRI/HDRI_Epic_Courtyard_Daylight.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/Developer/RiderLink/Intermediate/FileSystemMappings.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Developer/RiderLink/Intermediate/FileSystemMappings.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystem.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystem.Build.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/Private/Components/CustomMovementComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/Private/Components/CustomMovementComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/Public/Components/CustomMovementComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/Public/Components/CustomMovementComponent.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +104,10 @@
       <workItem from="1688836871390" duration="7357000" />
       <workItem from="1688899428451" duration="5307000" />
       <workItem from="1688907858431" duration="4176000" />
-      <workItem from="1689195711426" duration="826000" />
+      <workItem from="1689195711426" duration="1422000" />
+      <workItem from="1689233253935" duration="996000" />
+      <workItem from="1689284427933" duration="2476000" />
+      <workItem from="1689286988273" duration="970000" />
     </task>
     <servers />
   </component>

@@ -129,7 +129,7 @@ bool UCustomMovementComponent::TraceClimbableSurfaces()
 	return !ClimbableSurfacesTracedResults.IsEmpty();
 }
 
-FHitResult UCustomMovementComponent::TraceFromEyeHeight(float TraceDistance, float TraceStartOffset)
+FHitResult UCustomMovementComponent::TraceFromEyeHeight(float TraceDistance, float TraceStartOffset, bool bShowDebugShape, bool bDrawPersistantShapes)
 {
 	const FVector ComponentLocation = UpdatedComponent->GetComponentLocation();
 	const FVector EyeHeightOffset = UpdatedComponent->GetUpVector() * (CharacterOwner->BaseEyeHeight + TraceStartOffset);
@@ -137,7 +137,7 @@ FHitResult UCustomMovementComponent::TraceFromEyeHeight(float TraceDistance, flo
 	const FVector Start = ComponentLocation + EyeHeightOffset;
 	const FVector End = Start + UpdatedComponent->GetForwardVector() * TraceDistance;
 
-	return DoLineTraceSingleByObject(Start,End);
+	return DoLineTraceSingleByObject(Start,End, bShowDebugShape, bDrawPersistantShapes);
 }
 
 void UCustomMovementComponent::PlayClimbMontage(UAnimMontage* MontageToPlay)
@@ -202,21 +202,92 @@ void UCustomMovementComponent::RequestHopping()
 
 	if(DotVerticalResult > 0.9f)
 	{
-		// UP
+		HandleHop(HopDirection::UP);
 	}
 	else if(DotVerticalResult < -0.9f)
 	{
-		// DOWN
+		HandleHop(HopDirection::DOWN);
 	}
 	else if(DotHorizontalResult > 0.9f)
 	{
-		// RIGHT
+		HandleHop(HopDirection::RIGHT);
 	}
 	else if(DotHorizontalResult < -0.9f)
 	{
-		// LEFT
+		HandleHop(HopDirection::LEFT);
 	}
 	
+}
+
+void UCustomMovementComponent::HandleHop(HopDirection Direction)
+{
+	FVector HopTargetPoint;
+	
+	if(CheckCanHop(Direction, HopTargetPoint))
+	{
+		SetMotionWarpTarget(FName("HopTargetPoint"), HopTargetPoint);
+
+		UAnimMontage* HopMontage = nullptr;
+
+		switch (Direction)
+		{
+			case HopDirection::UP:
+				HopMontage = HopUpMontage;
+				break;
+			case HopDirection::DOWN :
+				HopMontage = HopDownMontage;
+				break;
+			case HopDirection::RIGHT :
+				HopMontage = HopRightMontage;
+				break;
+			case HopDirection::LEFT :
+				HopMontage = HopLeftMontage;
+				break;
+		}
+			
+		PlayClimbMontage(HopMontage);
+	}
+	else
+	{
+		
+	}
+}
+
+bool UCustomMovementComponent::CheckCanHop(HopDirection Direction, FVector& OutHopTargetPosition)
+{
+	FVector TraceDirection = FVector::ZeroVector;
+	FVector HeightOffset = FVector::ZeroVector;
+
+	switch (Direction)
+	{
+	case HopDirection::UP:
+		TraceDirection = FVector::UpVector;
+		break;
+	case HopDirection::DOWN :
+		TraceDirection = FVector::DownVector;
+		HeightOffset = TraceDirection * 150.0f;
+		break;
+	case HopDirection::RIGHT :
+		TraceDirection = UpdatedComponent->GetRightVector() * 2.0f;
+		HeightOffset = FVector::DownVector * GetCharacterOwner()->GetDefaultHalfHeight();
+		break;
+	case HopDirection::LEFT :
+		TraceDirection = -UpdatedComponent->GetRightVector() * 2.0f;
+		HeightOffset = FVector::DownVector * GetCharacterOwner()->GetDefaultHalfHeight();
+		break;
+	}
+	
+	FVector TraceStart = UpdatedComponent->GetComponentLocation() + TraceDirection * 100.0f + HeightOffset;
+	FVector TraceEnd = TraceStart + UpdatedComponent->GetForwardVector() * 100.0f;
+	FHitResult HopHitResult = DoLineTraceSingleByObject(TraceStart,TraceEnd);
+
+	if(HopHitResult.bBlockingHit)
+	{
+		OutHopTargetPosition = HopHitResult.ImpactPoint;
+		return true;
+	}
+	
+	return false;	
 }
 
 bool UCustomMovementComponent::CanStartClimbing()
@@ -289,16 +360,16 @@ bool UCustomMovementComponent::CanStartVaulting(FVector& OutVaultStartPosition, 
 
 	for (int32 i = 0; i < 5; i++)
 	{
-		const FVector Start = ComponentLocation + UpVector * 100.0f + ComponentForward * 100.0f * (i + 1);
+		const FVector Start = ComponentLocation + UpVector * 100.0f + ComponentForward * 80.0f * (i + 1);
 		const FVector End = Start + DownVector * 100.0f * (i + 1);
 
-		FHitResult VaultTraceHit = DoLineTraceSingleByObject(Start, End, true, true);
+		FHitResult VaultTraceHit = DoLineTraceSingleByObject(Start, End, false, false);
 
 		if(VaultTraceHit.bBlockingHit)
 		{
 			if(i == 0)
 				OutVaultStartPosition = VaultTraceHit.ImpactPoint;
-			else if(i==4)
+			else if(i==3)
 				OutVaultEndPosition = VaultTraceHit.ImpactPoint;
 		}
 	}

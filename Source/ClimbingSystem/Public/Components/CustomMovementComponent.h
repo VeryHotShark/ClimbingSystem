@@ -10,6 +10,7 @@ DECLARE_DELEGATE(FOnClimbState)
 
 class AClimbingSystemCharacter;
 UENUM(BlueprintType)
+
 namespace ECustomMovementMode
 {
 	enum Type
@@ -17,9 +18,16 @@ namespace ECustomMovementMode
 		MOVE_Climb UMETA(DisplayName = "Climb Mode")
 	};
 }
-/**
- * 
- */
+
+UENUM(BlueprintType)
+enum class HopDirection : uint8
+{
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT
+};
+
 UCLASS()
 class CLIMBINGSYSTEM_API UCustomMovementComponent : public UCharacterMovementComponent
 {
@@ -66,6 +74,18 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Movement: Climbing", meta=(AllowPrivateAccess = "true"))
 	UAnimMontage* VaultMontage;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Movement: Climbing", meta=(AllowPrivateAccess = "true"))
+	UAnimMontage* HopUpMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Movement: Climbing", meta=(AllowPrivateAccess = "true"))
+	UAnimMontage* HopDownMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Movement: Climbing", meta=(AllowPrivateAccess = "true"))
+	UAnimMontage* HopRightMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Movement: Climbing", meta=(AllowPrivateAccess = "true"))
+	UAnimMontage* HopLeftMontage;
+
 	UPROPERTY()
 	UAnimInstance* OwnerAnimInstance;
 
@@ -80,7 +100,7 @@ private:
 	TArray<FHitResult> DoCapsuleTraceMultiByObject(const FVector& Start, const FVector& End, bool bShowDebugShape = false, bool bDrawPersistantShapes = false);
 	FHitResult DoLineTraceSingleByObject(const FVector& Start, const FVector& End, bool bShowDebugShape = false, bool bDrawPersistantShapes = false);
 
-	FHitResult TraceFromEyeHeight(float TraceDistance, float TraceStartOffset = 0.0f);
+	FHitResult TraceFromEyeHeight(float TraceDistance, float TraceStartOffset = 0.0f,bool bShowDebugShape = false, bool bDrawPersistantShapes = false);
 	bool TraceClimbableSurfaces();
 	bool CanStartClimbing();
 	bool CanClimbDownLedge();
@@ -103,6 +123,9 @@ private:
 	void OnMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 
 	void SetMotionWarpTarget(const FName& InWarpTargetName, const FVector& InTargetLocation);
+	
+	void HandleHop(HopDirection Direction);
+	bool CheckCanHop(HopDirection Direction, FVector& OutHopTargetPosition);
 
 protected:
 	virtual void BeginPlay() override;

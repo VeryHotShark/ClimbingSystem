@@ -6,12 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d387604a-7e7f-4a30-8731-3045c5248561" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ClimbingSystem.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ClimbingSystem.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Animations/CR_ClimbIK.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Animations/CR_ClimbIK.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Characters/BP_ClimbSystemCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Characters/BP_ClimbSystemCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/MAP_CR.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/MAP_CR.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Blueprints/Blueprint_CeilingLight.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Blueprints/Blueprint_CeilingLight.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/8/ME/3QZT15P2Q47780RUD3MWA2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/8/ME/3QZT15P2Q47780RUD3MWA2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/ClimbingSystemCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/Developer/RiderLink/Intermediate/FileSystemMappings.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/Developer/RiderLink/Intermediate/FileSystemMappings.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/Private/Components/CustomMovementComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/Private/Components/CustomMovementComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/ClimbingSystem/Public/Components/CustomMovementComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ClimbingSystem/Public/Components/CustomMovementComponent.h" afterDir="false" />
     </list>
@@ -107,6 +105,7 @@
       <workItem from="1689284427933" duration="2476000" />
       <workItem from="1689286988273" duration="1007000" />
       <workItem from="1689317806986" duration="2298000" />
+      <workItem from="1689362832565" duration="3448000" />
     </task>
     <servers />
   </component>

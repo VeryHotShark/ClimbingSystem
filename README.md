@@ -8,4 +8,4 @@ Character can :
 - Climb Up/Down the Ledge
 - Hop in 4 directions during Climb
 
-  I'm planning to Expand this to support more typical Ledge based climbing like in AC series or Uncharted.
+I'm planning to Expand this to support more typical Ledge based climbing like in AC series or Uncharted.

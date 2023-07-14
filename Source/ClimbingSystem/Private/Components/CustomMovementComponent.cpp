@@ -193,6 +193,32 @@ void UCustomMovementComponent::ToggleClimbing(bool bEnableClimb)
 	}
 }
 
+void UCustomMovementComponent::RequestHopping()
+{
+	const FVector UnrotatedLastInputVector = UKismetMathLibrary::Quat_UnrotateVector(UpdatedComponent->GetComponentQuat(),GetLastInputVector());
+	const FVector UnrotatedLastInputDirection = UnrotatedLastInputVector.GetSafeNormal();
+	const float DotVerticalResult = FVector::DotProduct(UnrotatedLastInputDirection, FVector::UpVector);
+	const float DotHorizontalResult = FVector::DotProduct(UnrotatedLastInputDirection, FVector::RightVector);
+
+	if(DotVerticalResult > 0.9f)
+	{
+		// UP
+	}
+	else if(DotVerticalResult < -0.9f)
+	{
+		// DOWN
+	}
+	else if(DotHorizontalResult > 0.9f)
+	{
+		// RIGHT
+	}
+	else if(DotHorizontalResult < -0.9f)
+	{
+		// LEFT
+	}
+	
+}
+
 bool UCustomMovementComponent::CanStartClimbing()
 {
 	if(IsFalling())
@@ -452,6 +478,7 @@ void UCustomMovementComponent::OnMovementModeChanged(EMovementMode PreviousMovem
 	{
 		bOrientRotationToMovement = false;
 		CharacterOwner->GetCapsuleComponent()->SetCapsuleHalfHeight(48.0f);
+		OnEnterClimbState.ExecuteIfBound();
 	}
 	
 	if(PreviousMovementMode == MOVE_Custom && PreviousCustomMode == ECustomMovementMode::MOVE_Climb)
@@ -464,6 +491,8 @@ void UCustomMovementComponent::OnMovementModeChanged(EMovementMode PreviousMovem
 		UpdatedComponent->SetRelativeRotation(CleanStandRotation);
 		
 		StopMovementImmediately();
+
+		OnExitClimbState.ExecuteIfBound();
 	}
 	
 	Super::OnMovementModeChanged(PreviousMovementMode, PreviousCustomMode);

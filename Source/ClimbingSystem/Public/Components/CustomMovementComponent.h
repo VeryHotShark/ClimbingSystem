@@ -6,6 +6,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "CustomMovementComponent.generated.h"
 
+DECLARE_DELEGATE(FOnClimbState)
+
 class AClimbingSystemCharacter;
 UENUM(BlueprintType)
 namespace ECustomMovementMode
@@ -22,6 +24,10 @@ UCLASS()
 class CLIMBINGSYSTEM_API UCustomMovementComponent : public UCharacterMovementComponent
 {
 	GENERATED_BODY()
+
+public:
+	FOnClimbState OnEnterClimbState;
+	FOnClimbState OnExitClimbState;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Character Movement: Climbing", meta=(AllowPrivateAccess = "true"))
@@ -109,6 +115,7 @@ protected:
 
 public:
 	void ToggleClimbing(bool bEnableClimb);
+	void RequestHopping();
 	bool IsClimbing() const;
 
 	FORCEINLINE FVector GetClimbableSurfaceNormal() const {return CurrentClimbableSurfaceNormal;}
